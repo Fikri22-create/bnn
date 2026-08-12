@@ -10,7 +10,6 @@ import {
   FiHome,
   FiPhone,
   FiSearch,
-  FiShield,
   FiUsers,
 } from 'react-icons/fi'
 import Reveal from '../components/Reveal.jsx'

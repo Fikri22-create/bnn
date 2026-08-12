@@ -19,12 +19,7 @@ import SectionHeading from '../components/SectionHeading.jsx'
 import PageBanner from '../components/PageBanner.jsx'
 import heroMain from '../assets/images/hero-main.jpg'
 import motto from '../assets/images/motto.png'
-// TODO: Saat file video tersedia, letakkan di src/assets/videos/ lalu:
-// 1. import videoUrl from '../assets/videos/<nama-file>.mp4'
-// 2. Ganti blok placeholder foto di bawah dengan:
-//    <video src={videoUrl} controls preload="metadata" playsInline className="aspect-video w-full object-cover">
-//      Browser Anda tidak mendukung pemutaran video.
-//    </video>
+import videoUrl from '../assets/videos/videos.mp4'
 
 const misi = [
   'melaksanakan pelayanan secara terpadu rehabilitasi medis dan sosial bagi penyalahguna dan/atau pecandu narkoba;',
@@ -341,27 +336,15 @@ function Profil() {
         />
         <Reveal delay={120} variant="scale" className="mt-12">
           <div className="video-frame group relative mx-auto max-w-4xl overflow-hidden rounded-3xl bg-primary-950 shadow-lift">
-            {/* Placeholder foto — sementara menunggu file video di src/assets/videos/ */}
-            <div className="relative aspect-video w-full overflow-hidden">
-              <img
-                src={heroMain}
-                alt="Balai Besar Rehabilitasi BNN"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary-950/60 via-transparent to-primary-950/20" />
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-accent-500 text-primary-950 shadow-glow-gold transition-all duration-300 group-hover:scale-110">
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-0 animate-pulse-ring rounded-full bg-accent-500"
-                  />
-                  <FiPlay className="relative ml-1 h-8 w-8" />
-                </span>
-              </span>
-            </div>
+            <video
+              src={videoUrl}
+              controls
+              preload="metadata"
+              playsInline
+              className="aspect-video w-full object-cover"
+            >
+              Browser Anda tidak mendukung pemutaran video.
+            </video>
             <div className="flex flex-col gap-1 border-t border-white/10 bg-primary-900/95 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent-500 text-primary-950">

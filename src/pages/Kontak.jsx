@@ -61,6 +61,7 @@ function Kontak() {
   const [form, setForm] = useState(initialState)
   const [status, setStatus] = useState('idle')
   const [errors, setErrors] = useState({})
+  const [errorDetail, setErrorDetail] = useState('')
 
   const validate = () => {
     const next = {}
@@ -96,8 +97,10 @@ function Kontak() {
       )
       setStatus('success')
       setForm(initialState)
-    } catch {
+      setErrorDetail('')
+    } catch (err) {
       setStatus('error')
+      setErrorDetail(err?.text || err?.message || '')
     }
   }
 
@@ -225,7 +228,7 @@ function Kontak() {
                       type="email"
                       value={form.email}
                       onChange={handleChange}
-                      placeholder="email@contoh.com"
+                      placeholder="name@gmail.com"
                       className={`w-full rounded-xl border bg-ink-50/50 px-4 py-3 text-sm text-ink-800 outline-none transition-all placeholder:text-ink-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-200 ${
                         errors.email ? 'border-red-400' : 'border-ink-200'
                       }`}
@@ -305,10 +308,17 @@ function Kontak() {
                   </p>
                 ) : null}
                 {status === 'error' ? (
-                  <p className="flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
-                    <FiAlertCircle className="h-4.5 w-4.5 shrink-0" />
-                    Pesan gagal terkirim. Silakan coba lagi.
-                  </p>
+                  <div className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
+                    <p className="flex items-center gap-2">
+                      <FiAlertCircle className="h-4.5 w-4.5 shrink-0" />
+                      Pesan gagal terkirim. Silakan coba lagi.
+                    </p>
+                    {errorDetail ? (
+                      <p className="mt-1.5 text-xs font-normal text-red-400">
+                        Detail: {errorDetail}
+                      </p>
+                    ) : null}
+                  </div>
                 ) : null}
               </form>
             </Reveal>

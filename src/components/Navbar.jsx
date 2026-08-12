@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { FiMenu, FiX, FiArrowUpRight } from 'react-icons/fi'
+import { FiMenu, FiX } from 'react-icons/fi'
 import lambang from '../assets/icons/lambang.png'
 
 const links = [
