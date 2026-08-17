@@ -19,7 +19,7 @@ import SectionHeading from '../components/SectionHeading.jsx'
 import PageBanner from '../components/PageBanner.jsx'
 import heroMain from '../assets/images/hero-main.jpg'
 import motto from '../assets/images/motto.png'
-import videoUrl from '../assets/videos/videos.mp4'
+import videoUrl from '../assets/videos/video.mp4'
 
 const misi = [
   'melaksanakan pelayanan secara terpadu rehabilitasi medis dan sosial bagi penyalahguna dan/atau pecandu narkoba;',
