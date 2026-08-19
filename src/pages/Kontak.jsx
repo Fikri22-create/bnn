@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import emailjs from '@emailjs/browser'
 import {
   FiAlertCircle,
@@ -55,13 +55,19 @@ const socials = [
   { icon: FiInstagram, href: 'https://www.instagram.com/lensa_bnn/', label: 'Instagram BNN' },
 ]
 
-const initialState = { name: '', email: '', subject: '', message: '' }
+const initialState = { name: '', email: '', subject: '', message: '', company: '' }
 
 function Kontak() {
   const [form, setForm] = useState(initialState)
   const [status, setStatus] = useState('idle')
   const [errors, setErrors] = useState({})
-  const [errorDetail, setErrorDetail] = useState('')
+  const [cooldown, setCooldown] = useState(0)
+
+  useEffect(() => {
+    if (cooldown <= 0) return undefined
+    const timer = setTimeout(() => setCooldown((c) => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [cooldown])
 
   const validate = () => {
     const next = {}
@@ -76,11 +82,24 @@ function Kontak() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((f) => ({ ...f, [name]: value }))
-    if (errors[name]) setErrors((er) => ({ ...er, [name]: undefined }))
+    if (status !== 'idle') setStatus('idle')
+    if (errors[name]) {
+      setErrors((er) => {
+        const next = { ...er }
+        delete next[name]
+        return next
+      })
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (form.company) {
+      // Honeypot terisi — kemungkinan bot. Diam-diam anggap sukses tanpa mengirim.
+      setStatus('success')
+      setForm(initialState)
+      return
+    }
     if (!validate()) return
     setStatus('sending')
     try {
@@ -97,10 +116,10 @@ function Kontak() {
       )
       setStatus('success')
       setForm(initialState)
-      setErrorDetail('')
+      setCooldown(5)
     } catch (err) {
+      console.error('EmailJS error:', err)
       setStatus('error')
-      setErrorDetail(err?.text || err?.message || '')
     }
   }
 
@@ -192,6 +211,16 @@ function Kontak() {
                 noValidate
                 className="card-accent flex flex-col gap-5 rounded-3xl border border-ink-100 bg-white p-7 shadow-lift md:p-9"
               >
+                <input
+                  type="text"
+                  name="company"
+                  value={form.company}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
                 <div className="grid gap-5 sm:grid-cols-2">
                   <div>
                     <label
@@ -285,7 +314,7 @@ function Kontak() {
 
                 <button
                   type="submit"
-                  disabled={status === 'sending'}
+                  disabled={status === 'sending' || cooldown > 0}
                   className="btn-shine group inline-flex items-center justify-center gap-2 rounded-xl bg-primary-700 px-6 py-3.5 text-sm font-bold text-white shadow-soft transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-lift disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {status === 'sending' ? (
@@ -293,6 +322,8 @@ function Kontak() {
                       <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
                       Mengirim...
                     </>
+                  ) : cooldown > 0 ? (
+                    <>Kirim lagi dalam {cooldown}s</>
                   ) : (
                     <>
                       <FiSend className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -313,11 +344,6 @@ function Kontak() {
                       <FiAlertCircle className="h-4.5 w-4.5 shrink-0" />
                       Pesan gagal terkirim. Silakan coba lagi.
                     </p>
-                    {errorDetail ? (
-                      <p className="mt-1.5 text-xs font-normal text-red-400">
-                        Detail: {errorDetail}
-                      </p>
-                    ) : null}
                   </div>
                 ) : null}
               </form>

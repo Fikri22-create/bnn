@@ -17,66 +17,6 @@ dist-ssr
 .env.local
 .env.*.local
 
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Environment
-.env
-.env.local
-.env.*.local
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
